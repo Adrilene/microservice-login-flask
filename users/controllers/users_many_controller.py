@@ -44,7 +44,7 @@ class LoginApiController(Resource):
         return 'OK', 200
 
 
-class UserDataController(Resource):
+class ProfileController(Resource):
     def get(self):
         user = get_user_by_user_agent(request.headers.get('User-Agent'))
         if user: 
