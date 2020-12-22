@@ -3,6 +3,8 @@ from users.services.users_service import (
   get_user_by_email,
   insert_user,
   insert_user_agent,
+  get_user_by_user_agent,
+  delete_user_agent
 )
 # from flask import Response, request
 from users.models.users_model import User
@@ -35,11 +37,20 @@ class LoginApiController(Resource):
         expires = datetime.timedelta(days=1)
         access_token = create_access_token(identity=str(user.id), expires_delta=expires)
         return {'token': access_token, '_id': str(user.id)}, 200
+    
+    def delete(self):
+        user = get_user_by_user_agent(request.headers.get('User-Agent'))
+        delete_user_agent(user)
+        return 'OK', 200
 
 
-class ProfileController(Resource):
-    def post(self):
-      pass
+class UserDataController(Resource):
+    def get(self):
+        user = get_user_by_user_agent(request.headers.get('User-Agent'))
+        if user: 
+            user = json.loads(user.to_json())
+            return user, 200
+        return {'msg': 'user not logged'}, 400
 
 
 api.add_resource(SignupApiController, "/signup")
