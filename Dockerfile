@@ -11,5 +11,5 @@ COPY . /users
 RUN pip install -r /users/requirements.txt
 RUN pip install uwsgi
 RUN apk del .build-dependencies && rm -rf /var/cache/apk/*
-EXPOSE 5000
+EXPOSE 5006
 CMD ["uwsgi", "--ini", "/users/wsgi.ini"]
