@@ -40,8 +40,11 @@ class LoginApiController(Resource):
     
     def delete(self):
         user = get_user_by_user_agent(request.headers.get('User-Agent'))
-        delete_user_agent(user)
-        return 'OK', 200
+        if user:
+            delete_user_agent(user)
+            return {'msg': 'logout success'}, 200
+
+        return {'error': 'user not logged'}, 200
 
 
 class ProfileController(Resource):
@@ -50,7 +53,7 @@ class ProfileController(Resource):
         if user: 
             user = json.loads(user.to_json())
             return user, 200
-        return {'msg': 'user not logged'}, 400
+        return {'error': 'user not logged'}, 400
 
 
 api.add_resource(SignupApiController, "/signup")
