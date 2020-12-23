@@ -4,7 +4,8 @@ from users.services.users_service import (
   insert_user,
   insert_user_agent,
   get_user_by_user_agent,
-  delete_user_agent
+  delete_user_agent,
+  get_user_by_id
 )
 # from flask import Response, request
 from users.models.users_model import User
@@ -56,8 +57,16 @@ class ProfileController(Resource):
         return {'error': 'user not logged'}, 400
 
 
+class UserByIDController(Resource):
+    def get(self, _id):
+        user = get_user_by_id(_id)
+        user = json.loads(user.to_json())
+        return user, 200
+
+
 api.add_resource(SignupApiController, "/signup")
 api.add_resource(LoginApiController, "/login")
 api.add_resource(ProfileController, "/profile")
+api.add_resource(UserByIDController, "/user_by_id/<_id>")
 # api.add_resource(UserManyController, "/users")
 # api.add_resource(UserManyVariedController, "/users_varied")

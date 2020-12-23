@@ -17,5 +17,8 @@ def insert_user_agent(user, user_agent):
 def get_user_by_user_agent(user_agent):
     return User.objects(user_agent=user_agent)
 
+def get_user_by_id(_id):
+    return User.objects(id=_id)
+
 def delete_user_agent(user):
     user.update(set__user_agent='')
